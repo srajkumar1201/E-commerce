@@ -1,3 +1,4 @@
+//Sets up and configures the Express server for the application
 // Import required modules
 const express = require('express');  
 const mongoose = require('mongoose'); 
@@ -12,6 +13,8 @@ var bodyParser = require('body-parser');  // Middleware to parse request bodies
 let fileupload = require('express-fileupload');  // Middleware for handling file uploads
 let cors = require('cors');  // Middleware for enabling Cross-Origin Resource Sharing
 require('dotenv').config();  // Load environment variables from a .env file
+const helmet = require('helmet');//Middleware to set various HTTP headers for security
+
 let corsOptions = {};  // Options for CORS
 
 // Connect to MongoDB using the connection string from environment variables
@@ -28,6 +31,7 @@ server.listen(process.env.PORT, () => console.log('Server is running on port:', 
 app.use(bodyParser.json({ limit: '50mb' }));  // Parse JSON bodies with a 50MB size limit
 app.use(express.json({ limit: '50mb', extended: true, parameterLimit: 50000 }));  // Parse JSON with extended options
 app.use(express.text({ limit: '50mb', type: 'text/html' }));  // Parse text bodies with a 50MB size limit
+app.use(helmet());
 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));  // Parse URL-encoded bodies with extended options
 app.use(morgan('dev'));  // Log HTTP requests in 'dev' format

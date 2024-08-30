@@ -1,3 +1,5 @@
+//Sets up routes for managing products.
+
 // Import dependencies
 const express = require('express');
 const router = express.Router();

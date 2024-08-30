@@ -1,3 +1,7 @@
+/* Usage:
+ * Import this module into the routing layer to use these functions as
+ * handlers for various HTTP routes related to product operations.
+ */
 // Import dependencies
 const config =require('../config')
 const productValidationSchema =require('../validators/productValidator')
@@ -28,7 +32,7 @@ const createProduct=async(req,res)=>{
         })
        }
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })

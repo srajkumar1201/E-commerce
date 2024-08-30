@@ -1,3 +1,7 @@
+/* Usage:
+* Import this module into the controller to access the service functions
+* and perform operations on product data.
+*/
 // Import required modules
 const Product = require("../models/product");  
 const mongoose = require('mongoose');
@@ -65,15 +69,21 @@ return {status:config.success_message,data:totalAmount }
 const updateProductStack=async(productData)=>{
     try {
         productData.map(async (data)=>{
-            await Product.findOneAndUpdate(
-                { _id: data._id },
-                { $inc: { stock_quantity: -data.order_quantity } },
-                { new: true } 
-              );
-        
-              return {status:config.success_message,data:"updated" }
-        
+            try {
+                await Product.findOneAndUpdate(
+                    { _id: data._id },
+                    { $inc: { stock_quantity: -data.order_quantity } },
+                    { new: true } 
+                  );
+            
+                
+            
+            } catch (error) {
+                console.log(error); 
+            }
+            
         })
+        return {status:config.success_message,data:"updated" }
     } catch (error) {
         return {status:config.success_message,message:error }
 

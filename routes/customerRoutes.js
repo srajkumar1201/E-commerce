@@ -1,3 +1,4 @@
+// Sets up routes for handling customer-related HTTP requests.
 // Import dependencies
 
 const express = require('express');

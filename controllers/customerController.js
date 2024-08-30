@@ -1,3 +1,9 @@
+/* Usage:
+ * Import this module into the routing layer to use these functions as
+ * handlers for various HTTP routes related to customer operations.
+ */
+
+
 const config=require('../config')
 const customerServices=require("../services/customerServices")
 const customerValidator=require("../validators/customerValidator")
@@ -21,13 +27,13 @@ const createCustomer=async(req,res)=>{
             })
            }else{
             
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:customer.message
             })
            }
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })

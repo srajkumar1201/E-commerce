@@ -1,3 +1,7 @@
+/* Usage:
+ * Import this module into the routing layer to use these functions as
+ * handlers for various HTTP routes related to order operations.
+ */
 // Import dependencies
 const config=require("../config")
 const orderServices =require("../services/orderServices");
@@ -16,7 +20,8 @@ const createOrder=async(req,res)=>{
           return res.status(400).json({ error: error.details[0].message });
         }
         const {customer_id,items}=req.body;
-        if(!customerServices.status==config.success_message){
+        const getCustomer=await customerServices.getCustomer(customer_id);
+        if(getCustomer.status!==config.success_message){
             return res.status(400).json({
                 status:config.error_message,
                 message:config.customer_not_exist
@@ -26,14 +31,14 @@ const createOrder=async(req,res)=>{
 
         const productsTotalAmount=await productService.productsTotalAmount(items)
         if(productsTotalAmount.status!==config.success_message){
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:productsTotalAmount.message
             })
         }
         const checkQuantity =await orderHelper.checkQuantity(productsTotalAmount.data)
         if(checkQuantity.status){
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:checkQuantity.message
             })
@@ -53,14 +58,15 @@ const createOrder=async(req,res)=>{
         const totalAmount= await orderHelper.totalAmount(productsTotalAmount.data)
 
         if(totalAmount.status){
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:totalAmount.message
             })
         }
         const updateProductStack=await productService.updateProductStack(productsTotalAmount.data)
-if(updateProductStack.message==config.error_message){
-    return res.status(400).json({
+if(updateProductStack.status==config.error_message){
+    
+    return res.status(500).json({
         status:config.error_message,
         message:updateProductStack.message
     })
@@ -74,13 +80,15 @@ if(updateProductStack.message==config.error_message){
                 message:config.order_created
             })
            }else{
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:order.message
             })
            }
     } catch (error) {
-        return res.status(400).json({
+console.log(error);
+
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })
@@ -105,7 +113,7 @@ try {
         })
     }
 } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
         status:config.error_message,
         message:error
     })
@@ -131,13 +139,13 @@ const listOrders=async(req,res)=>{
             })
            }else{
             
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:customer.message
             })
            }
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })
@@ -157,13 +165,13 @@ const calculateTotalSales=async(req,res)=>{
             })
            }else{
             
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:calculateTotalSales.message
             })
            }
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })
@@ -183,13 +191,13 @@ const popularProduct=async(req,res)=>{
             })
            }else{
             
-            return res.status(400).json({
+            return res.status(500).json({
                 status:config.error_message,
                 message:papularProduct.message
             })
            }
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             status:config.error_message,
             message:error
         })

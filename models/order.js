@@ -1,3 +1,4 @@
+/* * Defines the Mongoose schema and model for order documents.*/
 // Import mongoose
 const mongoose = require('mongoose');
 

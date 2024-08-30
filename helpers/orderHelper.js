@@ -1,3 +1,7 @@
+/* Usage:
+ * Import this module to use these utility functions in other parts of the 
+ * application where order-related calculations and checks are required.
+ */
 // Function to calculate the total amount from a list of products
 const totalAmount=(products)=>{
     try {

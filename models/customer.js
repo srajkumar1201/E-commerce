@@ -1,3 +1,6 @@
+/**
+ * Defines the Mongoose schema and model for customer documents.
+ */
 // Import mongoose
 const mongoose = require('mongoose');
 

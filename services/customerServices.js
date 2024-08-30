@@ -1,3 +1,10 @@
+/* Usage:
+* Import this module into the controller to access the service functions
+* and perform operations on customer data.
+*/
+
+
+
 // Import required modules
 const Customer=require("../models/customer")
 const mongoose = require('mongoose');
